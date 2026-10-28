@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="theme-color" content="#0e0c10">
+<title>Wendepunkt</title>
+<style>
+html,body{margin:0;height:100%;background:#0e0c10;overflow:hidden;-webkit-user-select:none;user-select:none}
+#c{position:fixed;inset:0;width:100%;height:100%;display:block;touch-action:none;background:#0e0c10}
+#l{position:fixed;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:22px;color:#f7f2ec;font:600 16px system-ui,sans-serif}
+#l b{background:#e8432f;color:#fff;font:900 28px Impact,"Arial Narrow",sans-serif;letter-spacing:.06em;padding:6px 16px 4px;border-radius:6px}
+#bar{width:min(70vw,320px);height:6px;border-radius:3px;background:#26222a;overflow:hidden}#bar i{display:block;height:100%;width:0;background:#ffb22e}
+</style>
+</head>
+<body>
+<canvas id="c" tabindex="-1"></canvas>
+<div id="l"><b>WENDEPUNKT</b><div id="bar"><i></i></div><span id="t">Lädt …</span></div>
+<script>
+  var buildUrl = "Build";
+  var config = {
+    dataUrl: buildUrl + "/WebGL.data.unityweb",
+    frameworkUrl: buildUrl + "/WebGL.framework.js.unityweb",
+    codeUrl: buildUrl + "/WebGL.wasm.unityweb",
+    streamingAssetsUrl: "StreamingAssets",
+    companyName: "Tilman",
+    productName: "Wendepunkt",
+    productVersion: "1.0",
+    devicePixelRatio: Math.min(2, window.devicePixelRatio || 1)
+  };
+  var s = document.createElement("script");
+  s.src = buildUrl + "/WebGL.loader.js";
+  s.onload = function () {
+    createUnityInstance(document.querySelector("#c"), config, function (p) { document.querySelector("#bar i").style.width = (p * 100) + "%"; })
+      .then(function () { document.querySelector("#l").remove(); })
+      .catch(function (e) { document.querySelector("#t").textContent = "Fehler: " + e; });
+  };
+  document.body.appendChild(s);
+</script>
+</body>
+</html>
